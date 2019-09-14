@@ -10,7 +10,8 @@ class BaseRepository {
 }
 
 class BuildRepository extends BaseRepository {
-  BuildRepository(ApiClient apiClient) : super(apiClient : apiClient);
+  final BaseApiClient apiClient = ApiClient();
+
   Future<List<BuildInfoSection>> getBuilds() async {
     final response = await apiClient.get('apps');
     final buildResponse = BuildResponse.fromJSON(response);

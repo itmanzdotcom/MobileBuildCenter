@@ -18,6 +18,7 @@ class _BuildsViewState extends State<BuildsView> {
   void initState() {
     super.initState();
     _buildInfoBloc = BlocProvider.of<BuildInfoBloc>(context);
+    _buildInfoBloc.dispatch(FetchBuildInfo());
   }
 
   @override
@@ -71,14 +72,21 @@ class _BuildsViewState extends State<BuildsView> {
                       );
                     } else {
                       return ListView.builder(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                         itemCount: state.builds.length,
                         itemBuilder: (context, index) {
-                          return BuildItem(info: state.builds[index]);
+                          return BuildItem(
+                            info: state.builds[index],
+                            onTap: () => _buildInfoBloc.dispatch(
+                              SelectBuild(state.builds[index]),
+                            ),
+                          );
                         },
                       );
                     }
                   }
-                  
+
                   if (state is BuildInfoError) {
                     return Center(
                       child: Text('There are some problems'),

@@ -10,8 +10,8 @@ class BuildResponse extends Equatable {
   BuildResponse({this.androidBuilds, this.iOSBuilds});
 
   factory BuildResponse.fromJSON(Map<String, dynamic> json) {
-    final _androidBuilds = json['android'].map((item) => BuildInfoSection.fromJSON(item)).toList();
-    final _iOSBuilds = json['ios'].map((item) => BuildInfoSection.fromJSON(item)).toList();
+    final List<BuildInfoSection> _androidBuilds = (json['android'] as List).map((item) => BuildInfoSection.fromJSON(item)).toList();
+    final List<BuildInfoSection> _iOSBuilds = (json['ios'] as List).map((item) => BuildInfoSection.fromJSON(item)).toList();
 
     return BuildResponse(androidBuilds: _androidBuilds, iOSBuilds: _iOSBuilds);
   }
