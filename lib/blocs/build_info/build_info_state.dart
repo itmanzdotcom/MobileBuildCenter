@@ -6,6 +6,11 @@ class BuildInfoState extends Equatable {
   BuildInfoState([List props = const[]]) : super(props);
 }
 
+class BuildInfoUninitialized extends BuildInfoState {
+  @override
+  String toString() => "BuildInfoUninitialized";
+}
+
 class BuildInfoLoading extends BuildInfoState {
   @override
   String toString() => "BuildInfoLoading";
@@ -26,5 +31,5 @@ class BuildInfoError extends BuildInfoState {
   BuildInfoError([this.message]);
 
   @override
-  String toString() => "Error when loading build info";
+  String toString() => "BuildInfoError: ${this.message}";
 }
