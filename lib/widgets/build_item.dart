@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'dart:io';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:share/share.dart';
 
+import 'package:tiki_app_testing/utils/constants.dart';
 import 'package:tiki_app_testing/models/build_response.dart';
 import 'package:tiki_app_testing/utils/styles.dart';
 
 class BuildItem extends StatelessWidget {
   final Function onTap;
-  final Function onOpenQR;
   final BuildInfo info;
 
-  BuildItem({this.onTap, this.info, this.onOpenQR});
+  BuildItem({this.onTap, this.info});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +70,7 @@ class BuildItem extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: onOpenQR,
+              onTap: () => _showQR(context, info.link),
               child: Container(
                 padding: EdgeInsets.all(8),
                 height: 40,
@@ -100,8 +103,41 @@ class BuildItem extends StatelessWidget {
     } else {
       isDev = !name.toLowerCase().contains("prod");
     }
-    return isDev
-        ? Color.fromRGBO(95, 39, 205, 1)
-        : Color.fromRGBO(13, 92, 182, 1);
+    return isDev ? Styles.tikiDevColor : Styles.newTikiColor;
+  }
+
+  _showQR(BuildContext context, String url) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return CupertinoAlertDialog(
+          title: Text("QR Code"),
+          content: Center(
+            child: Container(
+              margin: EdgeInsets.only(top: 10),
+              width: 200,
+              height: 200,
+              child: QrImage(
+                data: url,
+                version: QrVersions.auto,
+                size: 200.0,
+              ),
+            ),
+          ),
+          actions: [
+            FlatButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(Constants.closeStr),
+            ),
+            FlatButton(
+              onPressed: () async {
+                Share.share(url);
+              },
+              child: Text(Constants.shareStr),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

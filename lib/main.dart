@@ -6,13 +6,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'routes.dart';
 import 'locator.dart';
 import 'package:tiki_app_testing/views/main_view.dart';
+import 'package:tiki_app_testing/views/search_view.dart';
 import 'blocs/blocs.dart';
-
 
 void main() {
   BlocSupervisor.delegate = AppBlocDelegate();
   setupLocator();
-  runApp(BuildCenterApp());
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<BuildInfoBloc>(
+          builder: (context) => BuildInfoBloc(),
+        ),
+      ],
+      child: BuildCenterApp(),
+    ),
+  );
 }
 
 class BuildCenterApp extends StatelessWidget {
@@ -21,22 +30,34 @@ class BuildCenterApp extends StatelessWidget {
     return MaterialApp(
       title: "Mobile Build Center",
       theme: ThemeData(
-          primarySwatch: Colors.blue,
+        primarySwatch: Colors.blue,
       ),
-      routes: {
-        AppRoutes.main: (context) {
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider<TabBloc>(
-                builder: (context) => TabBloc(),
+      onGenerateRoute: (RouteSettings settings) {
+        switch (settings.name) {
+          case AppRoutes.main:
+            return FadeRoute(
+              widget: MultiBlocProvider(
+                providers: [
+                  BlocProvider<TabBloc>(
+                    builder: (context) => TabBloc(),
+                  ),
+                ],
+                child: MainView(),
               ),
-              BlocProvider<BuildInfoBloc>(
-                builder: (context) => BuildInfoBloc(),
+            );
+          case AppRoutes.search:
+            return FadeRoute(
+              widget: MultiBlocProvider(
+                providers: [
+                  BlocProvider<SearchBloc>(
+                    builder: (context) => SearchBloc(),
+                  ),
+                ],
+                child: SearchView(),
               ),
-            ],
-            child: MainView(),
-          );
+            );
         }
+        return FadeRoute(widget: Container());
       },
     );
   }

@@ -11,11 +11,6 @@ class BuildInfoUninitialized extends BuildInfoState {
   String toString() => "BuildInfoUninitialized";
 }
 
-class BuildInfoLoading extends BuildInfoState {
-  @override
-  String toString() => "BuildInfoLoading";
-}
-
 class BuildInfoLoaded extends BuildInfoState {
   final List<BuildInfo> builds;
 

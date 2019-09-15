@@ -5,6 +5,7 @@ class Styles {
   static final Color newTikiColor = Color.fromRGBO(13, 92, 182, 1);
   static final Color tikiDevColor = Color.fromRGBO(95, 39, 205, 1);
   static final Color shadowColor = Color.fromRGBO(255, 152, 219, 0.1);
+  static final Color lightBlackColor = Color.fromRGBO(117, 111, 106, 1);
 
   static final TextStyle headerStyle = TextStyle(
     fontSize: 30,

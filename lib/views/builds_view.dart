@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+import 'package:tiki_app_testing/utils/constants.dart';
 import 'package:tiki_app_testing/blocs/build_info/build_info.dart';
 import 'package:tiki_app_testing/widgets/build_item.dart';
+import 'package:tiki_app_testing/widgets/header.dart';
 
 class BuildsView extends StatefulWidget {
   @override
@@ -25,78 +26,54 @@ class _BuildsViewState extends State<BuildsView> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.transparent,
-      child: Stack(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      Platform.isIOS ? 'iOS' : 'Android',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromRGBO(117, 111, 106, 1),
-                      ),
-                    ),
-                    Icon(
-                      Icons.search,
-                      size: 30,
-                      color: Color.fromRGBO(117, 111, 106, 1),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: BlocBuilder<BuildInfoBloc, BuildInfoState>(
-                    builder: (context, state) {
-                  if (state is BuildInfoUninitialized) {
-                    return Center(
-                      child: SpinKitDoubleBounce(
-                        color: Colors.blue,
-                        size: 80,
-                      ),
-                    );
-                  }
+          HeaderView(),
+          Expanded(
+            flex: 1,
+            child: BlocBuilder<BuildInfoBloc, BuildInfoState>(
+                builder: (context, state) {
+              if (state is BuildInfoUninitialized) {
+                return Center(
+                  child: SpinKitDoubleBounce(
+                    color: Colors.blue,
+                    size: 80,
+                  ),
+                );
+              }
 
-                  if (state is BuildInfoLoaded) {
-                    if (state.builds.isEmpty) {
-                      return Center(
-                        child: Text('No builds available'),
+              if (state is BuildInfoLoaded) {
+                if (state.builds.isEmpty) {
+                  return Center(
+                    child: Text('No builds available'),
+                  );
+                } else {
+                  return ListView.builder(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    itemCount: state.builds.length,
+                    itemBuilder: (context, index) {
+                      return BuildItem(
+                        info: state.builds[index],
+                        onTap: () => _buildInfoBloc.dispatch(
+                          SelectBuild(state.builds[index]),
+                        ),
                       );
-                    } else {
-                      return ListView.builder(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                        itemCount: state.builds.length,
-                        itemBuilder: (context, index) {
-                          return BuildItem(
-                            info: state.builds[index],
-                            onTap: () => _buildInfoBloc.dispatch(
-                              SelectBuild(state.builds[index]),
-                            ),
-                          );
-                        },
-                      );
-                    }
-                  }
+                    },
+                  );
+                }
+              }
 
-                  if (state is BuildInfoError) {
-                    return Center(
-                      child: Text('There are some problems'),
-                    );
-                  }
+              if (state is BuildInfoError) {
+                return Center(
+                  child: Text(Constants.errorNotificationStr),
+                );
+              }
 
-                  return Container();
-                }),
-              ),
-            ],
+              return Container();
+            }),
           ),
         ],
       ),
