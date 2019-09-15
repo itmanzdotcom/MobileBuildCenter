@@ -33,45 +33,59 @@ class _SearchHeaderState extends State<SearchHeader> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 20, right: 25, top: 10, bottom: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      child: Column(
         children: <Widget>[
-          GestureDetector(
-            onTap: () => Navigator.of(context).pop(),
-            child: Icon(
-              Icons.close,
-              size: 30,
-              color: Styles.lightBlackColor,
-            ),
-          ),
-          SizedBox(width: 10),
-          Expanded(
-            flex: 1,
-            child: Container(
-              padding: EdgeInsets.only(top: 5, bottom: 5, left: 10, right: 5),
-              decoration: BoxDecoration(
-                color: Colors.black12,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: TextField(
-                      focusNode: _focusNode,
-                      decoration:
-                          InputDecoration.collapsed(hintText: Constants.searchHint),
-                      onChanged: (text) => widget.onSearchTextChange(text),
-                    ),
-                  ),
-                  Icon(
-                    Icons.search,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              GestureDetector(
+                onTap: () => Navigator.of(context).pop(),
+                child: Hero(
+                  tag: Constants.headerMainButtonKey,
+                  child: Icon(
+                    Icons.close,
                     size: 30,
                     color: Styles.lightBlackColor,
                   ),
-                ],
+                ),
               ),
+              Text(
+                'Search',
+                style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Styles.lightBlackColor,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 15),
+          Container(
+            height: 40,
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+              color: Colors.black12,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: TextField(
+                    focusNode: _focusNode,
+                    onChanged: (text) => widget.onSearchTextChange(text),
+                    decoration: InputDecoration.collapsed(hintText: Constants.searchHint),
+                  ),
+                ),
+                Icon(
+                  Icons.search,
+                  size: 20,
+                  color: Styles.lightBlackColor,
+                ),
+              ],
             ),
           ),
         ],
@@ -79,3 +93,4 @@ class _SearchHeaderState extends State<SearchHeader> {
     );
   }
 }
+

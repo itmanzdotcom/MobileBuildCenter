@@ -6,6 +6,7 @@ import 'package:tiki_app_testing/blocs/blocs.dart';
 import 'package:tiki_app_testing/models/app_tab.dart';
 import 'package:tiki_app_testing/routes.dart';
 import 'package:tiki_app_testing/utils/styles.dart';
+import 'package:tiki_app_testing/utils/constants.dart';
 
 class HeaderView extends StatelessWidget {
   final String title;
@@ -35,10 +36,13 @@ class HeaderView extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () => Navigator.of(context).pushNamed(AppRoutes.search),
-                    child: Icon(
-                      Icons.search,
-                      size: 30,
-                      color: Styles.lightBlackColor,
+                    child: Hero(
+                      tag: Constants.headerMainButtonKey,
+                      child: Icon(
+                        Icons.search,
+                        size: 30,
+                        color: Styles.lightBlackColor,
+                      ),
                     ),
                   ),
                   state == AppTab.DeepLink ? SizedBox(width: 10) : null,

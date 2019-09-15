@@ -6,6 +6,7 @@ import 'package:tiki_app_testing/blocs/blocs.dart';
 import 'package:tiki_app_testing/utils/styles.dart';
 import 'package:tiki_app_testing/widgets/search_header.dart';
 import 'package:tiki_app_testing/widgets/build_item.dart';
+import 'package:tiki_app_testing/utils/constants.dart';
 
 class SearchView extends StatefulWidget {
   @override
@@ -43,7 +44,7 @@ class _SearchViewState extends State<SearchView> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 child: Text(
-                  'Results',
+                  Constants.searchResultTitle,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
