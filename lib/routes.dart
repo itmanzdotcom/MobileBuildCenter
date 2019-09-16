@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class AppRoutes {
   static const String main = "/";
   static const String search = "/search";
+  static const String deepLinkAddition = "/deep_link_addition";
   static const String confirmation = "/confirmation";
 }
 

@@ -8,7 +8,8 @@ class Constants {
   static final String errorNotificationStr = "There are some problem";
   static final String emptyData = "No builds available";
   static final String searchHint = "Enter build name";
-  static final String searchResultTitle = "Results";
+  static final String searchResultTitle = "Total Results";
+  static final String searchLoadingTitle = "Searching...";
 
   static final String headerMainButtonKey = "headerMainButtonKey";
   static final String headerSubButtonKey = "headerSubButtonKey";

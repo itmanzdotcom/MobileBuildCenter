@@ -43,13 +43,32 @@ class _SearchViewState extends State<SearchView> {
               SizedBox(height: 10),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30),
-                child: Text(
-                  Constants.searchResultTitle,
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    color: Styles.lightBlackColor,
-                  ),
+                child: BlocBuilder<SearchBloc, SearchState>(
+                  builder: (context, state) {
+                    if (state is SearchLoaded) {
+                      return Text(
+                        "${Constants.searchResultTitle} (${state.builds.length})",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Styles.lightBlackColor,
+                        ),
+                      );
+                    }
+
+                    if (state is SearchLoading) {
+                      return Text(
+                        Constants.searchLoadingTitle,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Styles.lightBlackColor,
+                        ),
+                      );
+                    }
+
+                    return Container();
+                  },
                 ),
               ),
               Expanded(
